@@ -37,3 +37,17 @@ def test_parse_args_missing_files(monkeypatch):
 
     with pytest.raises(SystemExit):
         parse_args()
+
+def test_parse_args_missing_report(monkeypatch):
+    """
+    Test that an error occurs when --report argument is missing.
+    """
+    monkeypatch.setattr('sys.argv', [
+        'main.py',
+        '--files', 'file1.csv'
+    ])
+
+    from src.cli import parse_args
+
+    with pytest.raises(SystemExit):
+        parse_args()
