@@ -1,4 +1,6 @@
 # tests/test_cli.py
+import pytest
+
 
 def test_parse_args_success(monkeypatch, sample_csv_file):
     """
@@ -21,3 +23,17 @@ def test_parse_args_success(monkeypatch, sample_csv_file):
     assert len(args.files) == 1
     assert str(args.files[0]) == str(file1)
     assert args.report == 'student-performance'
+
+def test_parse_args_missing_files(monkeypatch):
+    """
+    Test that an error occurs when --files argument is missing.
+    """
+    monkeypatch.setattr('sys.argv', [
+        'main.py',
+        '--report', 'student-performance'
+    ])
+
+    from src.cli import parse_args
+
+    with pytest.raises(SystemExit):
+        parse_args()
