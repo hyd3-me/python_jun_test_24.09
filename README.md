@@ -7,7 +7,7 @@
 ```bash
 git clone https://github.com/hyd3-me/python_jun_test_24.09.git source
 python -m venv env
-source /env/bin/activate
+source env/bin/activate
 cd source
 pip install -r requirements.txt
 ```
