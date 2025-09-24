@@ -42,3 +42,15 @@ def test_read_csv_files_two_files(tmp_path):
     assert len(result) == 2
     assert result[0]['student_name'] == 'Иванов Иван'
     assert result[1]['student_name'] == 'Сидоров С.С.'
+
+def test_read_csv_files_empty_file(tmp_path):
+    """
+    Test that reading an empty CSV file returns an empty list.
+    """
+    from src.parsers.csv_parser import read_csv_files
+
+    empty_file = tmp_path / "empty.csv"
+    empty_file.write_text("")  # Just empty
+
+    result = read_csv_files([empty_file])
+    assert result == []
