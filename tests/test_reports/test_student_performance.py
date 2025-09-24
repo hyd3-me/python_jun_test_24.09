@@ -29,3 +29,19 @@ def test_student_performance_report_empty_data():
     assert "Student Name" in result
     assert "Average Grade" in result
     assert len(result.strip().split('\n')) == 4  # Header + separator + empty row + separator
+
+def test_student_performance_report_one_grade():
+    """
+    Test that a student with one grade returns the correct average.
+    """
+    from src.reports.student_performance import StudentPerformanceReport
+
+    data = [
+        {"student_name": "Иванов Иван", "subject": "Математика", "grade": "5"},
+    ]
+
+    report = StudentPerformanceReport()
+    result = report.generate(data)
+
+    assert "Иванов Иван" in result
+    assert "5.0" in result

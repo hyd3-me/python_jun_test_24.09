@@ -32,6 +32,6 @@ class StudentPerformanceReport(BaseReport):
 
         sorted_students = sorted(avg_grades.items(), key=lambda x: x[1], reverse=True)
 
-        table = [[name, avg] for name, avg in sorted_students]
+        table = [[name, f"{avg:.2f}"] for name, avg in sorted_students]
         headers = ["Student Name", "Average Grade"]
-        return tabulate(table, headers=headers, tablefmt="grid")
+        return tabulate(table, headers=headers, tablefmt="grid", floatfmt=".2f")
