@@ -72,3 +72,37 @@ def test_main_unknown_report(monkeypatch, tmp_path, capsys):
 
     # Check that error message is printed
     assert "Unknown report: unknown-report" in captured.out
+
+def test_main_empty_csv_files(monkeypatch, tmp_path, capsys):
+    """
+    Test that main.py handles empty CSV files correctly.
+    """
+    from src.main import main
+
+    # Create empty CSV files
+    file1 = tmp_path / "empty1.csv"
+    file1.write_text("student_name,subject,teacher_name,date,grade\n")
+
+    file2 = tmp_path / "empty2.csv"
+    file2.write_text("student_name,subject,teacher_name,date,grade\n")
+
+    # Mock command line arguments
+    monkeypatch.setattr('sys.argv', [
+        'main.py',
+        '--files', str(file1), str(file2),
+        '--report', 'student-performance'
+    ])
+
+    # Run main
+    main()
+
+    # Capture output
+    captured = capsys.readouterr()
+
+    # Check that the report is empty but valid
+    output = captured.out
+    assert "Student Name" in output
+    assert "Average Grade" in output
+    # Should only contain header and separators, no data rows
+    lines = output.strip().split('\n')
+    assert len([line for line in lines if '|' in line]) == 1  # Header only
