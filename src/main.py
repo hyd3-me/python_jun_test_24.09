@@ -1,9 +1,14 @@
 # src/main.py
 
-from src.cli import parse_args
-from src.parsers.csv_parser import read_csv_files
-from src.reports.manager import ReportManager
-from src.reports.student_performance import StudentPerformanceReport
+import sys
+from pathlib import Path
+
+sys.path.append(str(Path(__file__).resolve().parent))
+
+from cli import parse_args
+from parsers.csv_parser import read_csv_files
+from reports.manager import ReportManager
+from reports.student_performance import StudentPerformanceReport
 
 
 def main():

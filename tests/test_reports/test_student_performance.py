@@ -4,7 +4,7 @@ def test_student_performance_report_single_student():
     """
     Test that average grade is calculated correctly for a single student with multiple grades.
     """
-    from src.reports.student_performance import StudentPerformanceReport
+    from reports.student_performance import StudentPerformanceReport
 
     data = [
         {"student_name": "Иванов Иван", "subject": "Математика", "grade": "5"},
@@ -21,7 +21,7 @@ def test_student_performance_report_empty_data():
     """
     Test that an empty data list returns an empty table.
     """
-    from src.reports.student_performance import StudentPerformanceReport
+    from reports.student_performance import StudentPerformanceReport
 
     report = StudentPerformanceReport()
     result = report.generate([])
@@ -34,7 +34,7 @@ def test_student_performance_report_one_grade():
     """
     Test that a student with one grade returns the correct average.
     """
-    from src.reports.student_performance import StudentPerformanceReport
+    from reports.student_performance import StudentPerformanceReport
 
     data = [
         {"student_name": "Иванов Иван", "subject": "Математика", "grade": "5"},
@@ -51,7 +51,7 @@ def test_student_performance_report_rounding():
     Test that average grades are rounded to 2 decimal places.
     Example: (5 + 4) / 2 = 4.5 → should appear as 4.50.
     """
-    from src.reports.student_performance import StudentPerformanceReport
+    from reports.student_performance import StudentPerformanceReport
 
     data = [
         {"student_name": "Иванов Иван", "subject": "Математика", "grade": "5"},
@@ -68,7 +68,7 @@ def test_student_performance_report_sorting():
     """
     Test that students are sorted by average grade descending.
     """
-    from src.reports.student_performance import StudentPerformanceReport
+    from reports.student_performance import StudentPerformanceReport
 
     data = [
         {"student_name": "Сидоров С.", "subject": "Математика", "grade": "3"},
@@ -93,7 +93,7 @@ def test_student_performance_report_multiple_grades():
     Test that average grade is calculated correctly for a student with multiple grades.
     Example: grades 5 and 4 → average = 4.5.
     """
-    from src.reports.student_performance import StudentPerformanceReport
+    from reports.student_performance import StudentPerformanceReport
 
     data = [
         {"student_name": "Иванов Иван", "subject": "Математика", "grade": "5"},
