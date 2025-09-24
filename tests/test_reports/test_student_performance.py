@@ -87,3 +87,23 @@ def test_student_performance_report_sorting():
     assert student_lines[0].count('Иванов Иван') == 1
     assert student_lines[1].count('Петров П.') == 1
     assert student_lines[2].count('Сидоров С.') == 1
+
+def test_student_performance_report_multiple_grades():
+    """
+    Test that average grade is calculated correctly for a student with multiple grades.
+    Example: grades 5 and 4 → average = 4.5.
+    """
+    from src.reports.student_performance import StudentPerformanceReport
+
+    data = [
+        {"student_name": "Иванов Иван", "subject": "Математика", "grade": "5"},
+        {"student_name": "Иванов Иван", "subject": "Физика", "grade": "4"},
+        {"student_name": "Иванов Иван", "subject": "Химия", "grade": "5"},
+    ]
+
+    report = StudentPerformanceReport()
+    result = report.generate(data)
+
+    assert "Иванов Иван" in result
+    # Average: (5 + 4 + 5) / 3 = 4.666... → should be rounded to 4.67
+    assert "4.67" in result
