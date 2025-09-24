@@ -1,12 +1,11 @@
 # tests/test_cli.py
 
-def test_parse_args_success(monkeypatch, tmp_path):
+def test_parse_args_success(monkeypatch, sample_csv_file):
     """
     Test that valid --files and --report arguments are parsed correctly.
     """
-    # Create a temporary CSV file for testing
-    file1 = tmp_path / "file1.csv"
-    file1.write_text("student_name,subject,teacher_name,date,grade\n")
+    # Use fixture to get the file
+    file1 = sample_csv_file
 
     # Mock sys.argv to simulate command line input
     monkeypatch.setattr('sys.argv', [
