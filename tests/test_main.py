@@ -106,3 +106,56 @@ def test_main_empty_csv_files(monkeypatch, tmp_path, capsys):
     # Should only contain header and separators, no data rows
     lines = output.strip().split('\n')
     assert len([line for line in lines if '|' in line]) == 1  # Header only
+
+def test_main_multiple_files_integration(monkeypatch, tmp_path, capsys):
+    """
+    Test that main.py correctly processes multiple CSV files and calculates average grades.
+    """
+    from src.main import main
+
+    # Create first CSV file
+    file1 = tmp_path / "file1.csv"
+    file1.write_text(
+        "student_name,subject,teacher_name,date,grade\n"
+        "Иванов Иван,Математика,Петров П.П.,2023-01-01,5\n"
+        "Иванов Иван,Физика,Сидоров С.С.,2023-01-02,4\n"
+    )
+
+    # Create second CSV file
+    file2 = tmp_path / "file2.csv"
+    file2.write_text(
+        "student_name,subject,teacher_name,date,grade\n"
+        "Петров П.,Химия,Козлова К.К.,2023-01-03,3\n"
+        "Иванов Иван,Информатика,Волкова В.В.,2023-01-04,5\n"
+    )
+
+    # Mock command line arguments
+    monkeypatch.setattr('sys.argv', [
+        'main.py',
+        '--files', str(file1), str(file2),
+        '--report', 'student-performance'
+    ])
+
+    # Run main
+    main()
+
+    # Capture output
+    captured = capsys.readouterr()
+
+    output = captured.out
+
+    # Check that both students are present
+    assert "Иванов Иван" in output
+    assert "Петров П." in output
+
+    # Check that Иванов Иван has average: (5 + 4 + 5) / 3 = 4.67
+    assert "4.67" in output
+
+    # Check that Петров П. has average: 3.0
+    assert "3.00" in output
+
+    # Check sorting: Иванов (4.67) should come before Петров (3.00)
+    lines = output.strip().split('\n')
+    student_lines = [line for line in lines if 'Иванов Иван' in line or 'Петров П.' in line]
+    assert 'Иванов Иван' in student_lines[0]
+    assert 'Петров П.' in student_lines[1]
