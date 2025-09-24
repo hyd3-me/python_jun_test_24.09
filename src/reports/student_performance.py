@@ -3,9 +3,10 @@
 from typing import List, Dict
 from collections import defaultdict
 from tabulate import tabulate
+from src.reports.base import BaseReport
 
 
-class StudentPerformanceReport:
+class StudentPerformanceReport(BaseReport):
     """
     Generates a report of average grades per student, sorted by average grade descending.
     """
